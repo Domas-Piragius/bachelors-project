@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import Header from '../Components/Header'
-const TaxCalculator = () => {
+const TaxCalculator = ({ navigation }) => {
 
     const [isBasicOpen, setIsBasicopen] = useState(false)
 
+    const goToCustomTaxCal = () => {
+        navigation.navigate('CustomTaxCalculator')
+    }
     return (
         <View style={{ flex: 1 }}>
-            <Header />
             <View style={{ alignItems: 'center', marginVertical: 25 }}>
                 <Text style={{ fontSize: 22 }}>TAX Calculator</Text>
             </View>
@@ -36,7 +38,7 @@ const TaxCalculator = () => {
                         <Text style={{ flex: 1, textAlign: 'center', fontSize: 20 }}>SAVED</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity style={{ backgroundColor: 'white', height: 50, borderRadius: 10, marginVertical: 10, justifyContent: 'center', alignItems: 'center', borderColor: 'gray', borderWidth: .8 }}>
+                <TouchableOpacity onPress={goToCustomTaxCal} style={{ backgroundColor: 'white', height: 50, borderRadius: 10, marginVertical: 10, justifyContent: 'center', alignItems: 'center', borderColor: 'gray', borderWidth: .8 }}>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Text style={{ flex: 1, textAlign: 'center', fontSize: 20 }}>CUSTOM</Text>
                     </View>

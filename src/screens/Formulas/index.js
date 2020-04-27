@@ -4,8 +4,7 @@ import Header from '../Components/Header/index'
 const Formulas = () => {
     return (
         <View style={{ flex: 1 }}>
-            <Header />
-            <View style={{ alignItems: 'center', marginVertical: 25 }}>
+             <View style={{ alignItems: 'center', marginVertical: 25 }}>
                 <Text style={{ fontSize: 22 }}>FORMULAS</Text>
             </View>
             <ScrollView contentContainerStyle={{ marginHorizontal: 25, justifyContent: 'center', }}>

@@ -18,14 +18,17 @@ const App = () => {
     const Stack = createStackNavigator();
 
     return (
-        <News />
-        // <NavigationContainer>
-        //     <Stack.Navigator options={{}}>
-        //         <Stack.Screen name="login" component={Login} />
-        //         <Stack.Screen name="splash" component={Splash} />
-        //         <Stack.Screen name="signup" component={SignUp} />
-        //     </Stack.Navigator>
-        // </NavigationContainer>
+        <NavigationContainer>
+            <Stack.Navigator >
+                <Stack.Screen options={{ title: 'Login' }} name="Login" component={Login} />
+                <Stack.Screen options={{ title: '' }} name="Home" component={Home} />
+                <Stack.Screen options={{ title: '' }} name="TaxCalculator" component={TaxCalculator} />
+                <Stack.Screen options={{ title: '' }} name="CustomTaxCalculator" component={CustomTaxCalculator} />
+                <Stack.Screen options={{ title: '' }} name="BudgetPlanner" component={BudgetPlanner} />
+                <Stack.Screen options={{ title: '' }} name="Formulas" component={Formulas} />
+                <Stack.Screen options={{ title: '' }} name="News" component={News} />
+            </Stack.Navigator>
+        </NavigationContainer>
     )
 }
 export default App;

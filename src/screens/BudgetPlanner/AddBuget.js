@@ -10,7 +10,7 @@ const AddBudget = () => {
             <ScrollView contentContainerStyle={{ marginHorizontal: 25, justifyContent: 'center', }}>
                 <View>
                     <Text >Enter Number</Text>
-                    <View style={{ height: 50, borderWidth: 1, borderColor: 'gray', borderRadius: 10, marginVertical: 10 }}>
+                    <View style={{ height: 50, borderWidth: 1, borderColor: 'gray', borderRadius: 10, marginVertical: 10, backgroundColor : '#fff' }}>
                         <TextInput style={{ fontSize: 18 }} />
                     </View>
                 </View>

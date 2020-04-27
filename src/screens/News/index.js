@@ -6,8 +6,7 @@ const CustomTaxCalculator = () => {
 
     return (
         <View style={{ flex: 1, }}>
-            <Header />
-            <View style={{ alignItems: 'center', marginVertical: 25 }}>
+             <View style={{ alignItems: 'center', marginVertical: 25 }}>
                 <Text style={{ fontSize: 22 }}>NEWS</Text>
             </View>
             <ScrollView contentContainerStyle={{ marginHorizontal: 25, paddingBottom: 50 }}>
