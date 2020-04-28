@@ -24,7 +24,7 @@ const Home = ({ navigation }) => {
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Text style={{ flex: 1, textAlign: 'center', fontSize: 20 }}>TAX CALCULATOR</Text>
                         <View style={{ backgroundColor: 'white', borderRadius: 10, marginHorizontal: 20 }}>
-                            <Image style={{ width: 30, height: 30 }} source={{ uri: 'https://www.freepngimg.com/thumb/google/66893-guava-logo-google-plus-suite-png-image-high-quality.png' }} />
+                            <Image style={{ width: 30, height: 30 }} source={require('../../images/calculator.png')} />
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -32,7 +32,7 @@ const Home = ({ navigation }) => {
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Text style={{ flex: 1, textAlign: 'center', fontSize: 20 }}>BUDGET PLANNER</Text>
                         <View style={{ backgroundColor: 'white', borderRadius: 10, marginHorizontal: 20 }}>
-                            <Image style={{ width: 30, height: 30 }} source={{ uri: 'https://www.freepngimg.com/thumb/google/66893-guava-logo-google-plus-suite-png-image-high-quality.png' }} />
+                            <Image style={{ width: 30, height: 30 }} source={require('../../images/budget_planner.png')} />
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -40,7 +40,7 @@ const Home = ({ navigation }) => {
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Text style={{ flex: 1, textAlign: 'center', fontSize: 20 }}>FORMULAS</Text>
                         <View style={{ backgroundColor: 'white', borderRadius: 10, marginHorizontal: 20 }}>
-                            <Image style={{ width: 30, height: 30 }} source={{ uri: 'https://www.freepngimg.com/thumb/google/66893-guava-logo-google-plus-suite-png-image-high-quality.png' }} />
+                            <Image style={{ width: 30, height: 30 }} source={require('../../images/formulas.png')} />
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -48,7 +48,7 @@ const Home = ({ navigation }) => {
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Text style={{ flex: 1, textAlign: 'center', fontSize: 20 }}>NEWS</Text>
                         <View style={{ backgroundColor: 'white', borderRadius: 10, marginHorizontal: 20 }}>
-                            <Image style={{ width: 30, height: 30 }} source={{ uri: 'https://www.freepngimg.com/thumb/google/66893-guava-logo-google-plus-suite-png-image-high-quality.png' }} />
+                            <Image style={{ width: 30, height: 30 }} source={require('../../images/news.png')} />
                         </View>
                     </View>
                 </TouchableOpacity>
