@@ -17,7 +17,7 @@ const Home = ({ navigation }) => {
     return (
         <View style={{ flex: 1, backgroundColor: '#eee', justifyContent: 'center' }}>
             <View style={{ alignItems: 'center', }} >
-                <Image style={{ width: 100, height: 100 }} source={{ uri: 'https://cdn4.iconfinder.com/data/icons/logos-3/600/React.js_logo-512.png' }} />
+                <Image style={{ width: 100, height: 100 }} source={require('../../images/logo.png')} />
             </View>
             <View style={{ marginHorizontal: 25 }} >
                 <TouchableOpacity onPress={goToTaxCalculator} style={{ backgroundColor: 'white', height: 50, borderRadius: 10, marginVertical: 10, justifyContent: 'center', alignItems: 'center', borderColor: 'gray', borderWidth: .8 }}>

@@ -11,7 +11,7 @@ const Login = ({ navigation }) => {
     return (
         <ScrollView contentContainerStyle={{ flex: 1, marginHorizontal: 25, justifyContent: 'space-around', }}>
             <View style={{ alignItems: 'center', marginTop: 30 }} >
-                <Image style={{ width: 150, height: 150 }} source={{ uri: 'https://cdn4.iconfinder.com/data/icons/logos-3/600/React.js_logo-512.png' }} />
+                <Image style={{ width: 150, height: 150 }} source={require('../../images/logo.png')} />
             </View>
             <View>
                 <TouchableOpacity onPress={_onPressFB} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#0291ff', justifyContent: 'center', alignItems: 'center' }}>
