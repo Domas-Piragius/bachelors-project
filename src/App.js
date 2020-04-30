@@ -16,15 +16,15 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 const App = () => {
     const Stack = createStackNavigator();
-    alert('My telegram and whatsapp number: +923142116223 and telegram username: @wajihaamir')
     return (
         <NavigationContainer>
             <Stack.Navigator >
-                <Stack.Screen options={{ title: 'Login' }} name="Login" component={Login} />
+                <Stack.Screen options={{ title: 'Welcome', header: () => { } }} name="splash" component={Splash} />
+                <Stack.Screen options={{ title: 'Login', header: () => { } }} name="Login" component={Login} />
                 <Stack.Screen options={{ title: '' }} name="Home" component={Home} />
                 <Stack.Screen options={{ title: '' }} name="TaxCalculator" component={TaxCalculator} />
                 <Stack.Screen options={{ title: '' }} name="CustomTaxCalculator" component={CustomTaxCalculator} />
-                <Stack.Screen options={{ title: '' }} name="BudgetPlanner" component={BudgetPlanner} />
+                <Stack.Screen options={{ title: 'Spend Calculator' }} name="BudgetPlanner" component={BudgetPlanner} />
                 <Stack.Screen options={{ title: '' }} name="Formulas" component={Formulas} />
                 <Stack.Screen options={{ title: '' }} name="News" component={News} />
             </Stack.Navigator>

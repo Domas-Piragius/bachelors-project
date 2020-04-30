@@ -1,9 +1,48 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, TextInput, Image, TouchableOpacity, ScrollView, } from 'react-native';
+import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
+import auth from '@react-native-firebase/auth';
+
 
 const Login = ({ navigation }) => {
-    const _onPressG = () => {
-        navigation.navigate('Home')
+
+
+    useEffect(() => {
+        GoogleSignin.configure({
+            webClientId: '368820231080-pscnhl1o4ef8nceglnmhqj2797c5hv7c.apps.googleusercontent.com', // From Firebase Console Settings
+        });
+    }, [])
+
+
+    const _onPressG = async () => {
+        console.log('_onPressG')
+        try {
+            GoogleSignin.hasPlayServices()
+            // Get the users ID token
+            const { idToken } = await GoogleSignin.signIn();
+
+            // Create a Google credential with the token
+            const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+            // Sign-in the user with the credential
+             auth().signInWithCredential(googleCredential);
+        } catch (error) {
+            if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+                // user cancelled the login flow
+                console.log('user cancelled the login flow')
+            } else if (error.code === statusCodes.IN_PROGRESS) {
+                // operation (e.g. sign in) is in progress already
+                console.log('operation (e.g. sign in) is in progress already')
+
+            } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+                // play services not available or outdated
+                console.log('play services not available or outdatedy')
+            } else {
+                // some other error happened
+                console.log(error, 'some other error happened')
+            }
+
+        }
     }
     const _onPressFB = () => {
         navigation.navigate('Home')
@@ -14,14 +53,6 @@ const Login = ({ navigation }) => {
                 <Image style={{ width: 150, height: 150 }} source={require('../../images/logo.png')} />
             </View>
             <View>
-                <TouchableOpacity onPress={_onPressFB} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#0291ff', justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <View style={{ backgroundColor: 'white', borderRadius: 10, marginHorizontal: 20 }}>
-                            <Image style={{ width: 30, height: 30 }} source={{ uri: 'https://cdn2.iconfinder.com/data/icons/social-18/512/Facebook-3-512.png' }} />
-                        </View>
-                        <Text style={{ color: 'white' }}>LOGIN WITH FACEBOOK</Text>
-                    </View>
-                </TouchableOpacity>
                 <TouchableOpacity onPress={_onPressG} style={{ height: 50, borderRadius: 10, marginVertical: 10, justifyContent: 'center', alignItems: 'center', borderColor: 'gray', backgroundColor: '#fff', borderWidth: .8 }}>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                         <View style={{ backgroundColor: 'white', borderRadius: 10, marginHorizontal: 20 }}>
