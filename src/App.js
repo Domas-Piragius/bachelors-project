@@ -16,7 +16,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 const App = () => {
     const Stack = createStackNavigator();
-
+    alert('My telegram and whatsapp number: +923142116223 and telegram username: @wajihaamir')
     return (
         <NavigationContainer>
             <Stack.Navigator >
