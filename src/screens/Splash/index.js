@@ -7,7 +7,7 @@ const Splash = ({ navigation }) => {
         setTimeout(() => {
             auth().onAuthStateChanged((user) => {
                 if (user) {
-                    navigation.navigate('Home')
+                    navigation.navigate('BudgetPlanner')
                 } else {
                     navigation.navigate('Login')
                 }

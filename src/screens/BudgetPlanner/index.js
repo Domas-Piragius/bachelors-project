@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Image, TouchableOpacity, ScrollView } from 'react-native';
 import Header from '../Components/Header';
 import AddBudget from './AddBuget';
+import ByMonth from './ByMonth';
 import ViewBudget from './ViewBudget';
 import Swiper from '../Components/RNSwiper'
 
@@ -15,10 +16,13 @@ const BudgetPlanner = () => {
                 onIndexChanged={(index) => setIsBudgetActive(index)}
                 style={{ flex: 1 }}>
                 <View style={{ flex: 1 }}>
-                    <ViewBudget isBudgetActive={isBudgetActive} />
+                    <ByMonth />
                 </View>
                 <View style={{ flex: 1 }}>
                     <AddBudget />
+                </View>
+                <View style={{ flex: 1 }}>
+                    <ViewBudget isBudgetActive={isBudgetActive} />
                 </View>
             </Swiper>
         </View>

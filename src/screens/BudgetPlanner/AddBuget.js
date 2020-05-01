@@ -20,7 +20,8 @@ const AddBudget = () => {
             firestore().collection(auth().currentUser.uid).doc('spends').collection('spends').add({
                 money: money,
                 category: category,
-                categoryIndex: categoryIndex
+                categoryIndex: categoryIndex,
+                date : new Date().getTime()
             }).then(() => {
                 alert('Save successfully ')
                 setMoney('')
