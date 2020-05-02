@@ -40,7 +40,7 @@ const ByMonth = ({ isBudgetActive }) => {
                     }
                     let normalizedArray = Object.values(normalizedData)
                     normalizedArray.sort((a, b) => new Date(b.date) - new Date(a.date))
-                    console.log(normalizedArray, 'normalizedData')
+                    // console.log(normalizedArray, 'normalizedData')
                     setSpends([...normalizedArray])
                     setTotalSpends(grandTotal)
                     // setSpends(arr)
@@ -55,16 +55,15 @@ const ByMonth = ({ isBudgetActive }) => {
             <View style={{ alignItems: 'center', marginVertical: 25 }}>
                 <Text style={{ fontSize: 28, fontWeight: 'bold', color: 'green' }}>{'$' + totalSpends}</Text>
             </View>
-            <Text style={{ marginHorizontal: 25 }}>Sort by Month</Text>
+            <Text style={{ marginHorizontal: 25 }}>Sort by Months (All the time)</Text>
             {spends && <ScrollView contentContainerStyle={{ marginHorizontal: 25, paddingBottom: 50 }}>
-
                 <FlatList
                     data={spends}
                     style={{ flex: 1 }}
                     renderItem={({ item, index }) => {
                         return (
                             <>
-                                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == index ? undefined : index)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
+                                <TouchableOpacity key={item.key} onPress={() => setActiveIndex(activeIndex == index ? undefined : index)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
                                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
                                         <View style={{ flex: 1 }}>
                                             <Text style={{ fontSize: 14 }}>{item.monthYear}</Text>
@@ -79,131 +78,6 @@ const ByMonth = ({ isBudgetActive }) => {
                         )
                     }}
                 />
-
-                {/* {activeIndex == 0 && <SubEntries data={spends[0].list} />}
-
-
-                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 1 ? undefined : 1)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
-                        <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 16 }}>February</Text>
-                        </View>
-                        <View style={{}}>
-                            <Text style={{ fontSize: 16 }}>{'$' + spends[1].total}</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-                {activeIndex == 1 && <SubEntries data={spends[1].list} />}
-                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 2 ? undefined : 2)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
-                        <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 16 }}>March </Text>
-                        </View>
-                        <View style={{}}>
-                            <Text style={{ fontSize: 16 }}>{'$' + spends[2].total}</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-                {activeIndex == 2 && <SubEntries data={spends[2].list} />}
-                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 3 ? undefined : 3)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
-                        <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 16 }}>April </Text>
-                        </View>
-                        <View style={{}}>
-                            <Text style={{ fontSize: 16 }}>{'$' + spends[3].total}</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-                {activeIndex == 3 && <SubEntries data={spends[3].list} />}
-                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 4 ? undefined : 4)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
-                        <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 16 }}>May </Text>
-                        </View>
-                        <View style={{}}>
-                            <Text style={{ fontSize: 16 }}>{'$' + spends[4].total}</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-                {activeIndex == 4 && <SubEntries data={spends[4].list} />}
-                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 5 ? undefined : 5)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
-                        <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 16 }}>June </Text>
-                        </View>
-                        <View style={{}}>
-                            <Text style={{ fontSize: 16 }}>{'$' + spends[5].total}</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-                {activeIndex == 5 && <SubEntries data={spends[5].list} />}
-                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 6 ? undefined : 6)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
-                        <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 16 }}>July </Text>
-                        </View>
-                        <View style={{}}>
-                            <Text style={{ fontSize: 16 }}>{'$' + spends[6].total}</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-                {activeIndex == 6 && <SubEntries data={spends[6].list} />}
-                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 7 ? undefined : 7)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
-                        <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 16 }}>August </Text>
-                        </View>
-                        <View style={{}}>
-                            <Text style={{ fontSize: 16 }}>{'$' + spends[7].total}</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-                {activeIndex == 7 && <SubEntries data={spends[7].list} />}
-                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 8 ? undefined : 8)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
-                        <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 16 }}>September</Text>
-                        </View>
-                        <View style={{}}>
-                            <Text style={{ fontSize: 16 }}>{'$' + spends[8].total}</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-                {activeIndex == 8 && <SubEntries data={spends[8].list} />}
-                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 9 ? undefined : 9)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
-                        <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 16 }}>October</Text>
-                        </View>
-                        <View style={{}}>
-                            <Text style={{ fontSize: 16 }}>{'$' + spends[9].total}</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-                {activeIndex == 9 && <SubEntries data={spends[9].list} />}
-                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 10 ? undefined : 10)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
-                        <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 16 }}>November</Text>
-                        </View>
-                        <View style={{}}>
-                            <Text style={{ fontSize: 16 }}>{'$' + spends[10].total}</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-                {activeIndex == 10 && <SubEntries data={spends[10].list} />}
-                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 11 ? undefined : 11)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
-                        <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 16 }}>December</Text>
-                        </View>
-                        <View style={{}}>
-                            <Text style={{ fontSize: 16 }}>{'$' + spends[11].total}</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-                {activeIndex == 11 && <SubEntries data={spends[11].list} />} */}
             </ScrollView>}
         </View>
     )

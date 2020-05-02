@@ -5,9 +5,9 @@ import firestore, { firebase } from '@react-native-firebase/firestore';
 import SubEntries from './SubEntries'
 
 
-const ViewBudget = ({ isBudgetActive }) => {
+const ThisMonth = ({ isBudgetActive }) => {
 
-    const [spends, setSpends] = useState([{ total: 0 }, { total: 0 }, { total: 0 }, { total: 0 }, { total: 0 }, { total: 0 }, { total: 0 }, { total: 0 },{total : 0}])
+    const [spends, setSpends] = useState([{ total: 0 }, { total: 0 }, { total: 0 }, { total: 0 }, { total: 0 }, { total: 0 }, { total: 0 }, { total: 0 }, { total: 0 }])
     const [totalSpends, setTotalSpends] = useState(0)
     const [activeIndex, setActiveIndex] = useState(undefined)
 
@@ -18,8 +18,13 @@ const ViewBudget = ({ isBudgetActive }) => {
         firestore().collection(uid).doc('spends').collection('spends').get().then(async (querySnapshot) => {
             console.log(querySnapshot.size, 'querySnapshot')
             await querySnapshot.forEach(function (doc, index) {
-                console.log(doc.id, " => ", doc.data());
-                spends.push({ key: doc.id, data: doc.data() })
+                // console.log(doc.id, " => ", doc.data());
+                let currentMonth = new Date().getMonth();
+                let docMonth = new Date(doc.data().date).getMonth();
+                console.log(currentMonth, docMonth, 'docMonthdocMonth')
+                if (currentMonth == docMonth) {
+                    spends.push({ key: doc.id, data: doc.data() })
+                }
                 if (index == querySnapshot.size - 1) {
                     console.log(spends, 'SPENDS')
                     let cat0 = { total: 0, list: [] }
@@ -140,7 +145,7 @@ const ViewBudget = ({ isBudgetActive }) => {
             <View style={{ alignItems: 'center', marginVertical: 25 }}>
                 <Text style={{ fontSize: 28, fontWeight: 'bold', color: 'green' }}>{'$' + totalSpends}</Text>
             </View>
-            <Text style={{ marginHorizontal: 25 }}>Sort by Category (All the time)</Text>
+            <Text style={{ marginHorizontal: 25 }}>Sort by Category (this Month)</Text>
             {spends && <ScrollView contentContainerStyle={{ marginHorizontal: 25, paddingBottom: 50 }}>
                 <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 0 ? undefined : 0)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
@@ -246,4 +251,4 @@ const ViewBudget = ({ isBudgetActive }) => {
     )
 }
 
-export default ViewBudget;
+export default ThisMonth;

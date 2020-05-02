@@ -4,6 +4,7 @@ import Header from '../Components/Header';
 import AddBudget from './AddBuget';
 import ByMonth from './ByMonth';
 import ByYearly from './ByYearly';
+import ThisMonth from './ThisMonth';
 import ViewBudget from './ViewBudget';
 import Swiper from '../Components/RNSwiper'
 
@@ -20,10 +21,13 @@ const BudgetPlanner = () => {
                     <AddBudget />
                 </View>
                 <View style={{ flex: 1 }}>
-                    <ByMonth />
+                    <ThisMonth isBudgetActive={isBudgetActive}/>
                 </View>
                 <View style={{ flex: 1 }}>
-                    <ByYearly />
+                    <ByMonth isBudgetActive={isBudgetActive}/>
+                </View>
+                <View style={{ flex: 1 }}>
+                    <ByYearly isBudgetActive={isBudgetActive}/>
                 </View>
                 <View style={{ flex: 1 }}>
                     <ViewBudget isBudgetActive={isBudgetActive} />

@@ -44,7 +44,7 @@ const AddBudget = () => {
                         <TextInput keyboardType={'numeric'} value={money} onChangeText={(text) => setMoney(text)} style={{ fontSize: 18 }} />
                     </View>
                 </View>
-                <Text style={{}}>Select Category</Text>
+                <Text style={{}}>Select Category (All the time)</Text>
                 <View style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#0291ff', justifyContent: 'center', alignItems: 'center' }}>
                     <Picker
                         selectedValue={category}
