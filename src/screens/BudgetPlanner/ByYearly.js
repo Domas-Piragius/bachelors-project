@@ -5,134 +5,37 @@ import firestore, { firebase } from '@react-native-firebase/firestore';
 import SubEntries from './SubEntries'
 
 
-const ViewBudget = ({ isBudgetActive }) => {
+const ByYearly = ({ isBudgetActive }) => {
 
-    const [spends, setSpends] = useState([{ total: 0 }, { total: 0 }, { total: 0 }, { total: 0 }, { total: 0 }, { total: 0 }, { total: 0 }, { total: 0 },{total : 0}])
+    const [spends, setSpends] = useState( [{ total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }])
     const [totalSpends, setTotalSpends] = useState(0)
     const [activeIndex, setActiveIndex] = useState(undefined)
 
     useEffect(() => {
-
         let uid = auth().currentUser.uid;
         let spends = []
+        let grandTotal = 0;
+        let arr = [{ total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }]
         firestore().collection(uid).doc('spends').collection('spends').get().then(async (querySnapshot) => {
-            console.log(querySnapshot.size, 'querySnapshot')
             await querySnapshot.forEach(function (doc, index) {
                 // console.log(doc.id, " => ", doc.data());
                 spends.push({ key: doc.id, data: doc.data() })
                 if (index == querySnapshot.size - 1) {
-                    console.log(spends, 'SPENDS')
-                    let cat0 = { total: 0, list: [] }
-                    let cat1 = { total: 0, list: [] }
-                    let cat2 = { total: 0, list: [] }
-                    let cat3 = { total: 0, list: [] }
-                    let cat4 = { total: 0, list: [] }
-                    let cat5 = { total: 0, list: [] }
-                    let cat6 = { total: 0, list: [] }
-                    let cat7 = { total: 0, list: [] }
-                    let cat8 = { total: 0, list: [] }
-
-                    let cat0List = spends.filter(x => x.data.categoryIndex == 0)
-                    let cat1List = spends.filter(x => x.data.categoryIndex == 1)
-                    let cat2List = spends.filter(x => x.data.categoryIndex == 2)
-                    let cat3List = spends.filter(x => x.data.categoryIndex == 3)
-                    let cat4List = spends.filter(x => x.data.categoryIndex == 4)
-                    let cat5List = spends.filter(x => x.data.categoryIndex == 5)
-                    let cat6List = spends.filter(x => x.data.categoryIndex == 6)
-                    let cat7List = spends.filter(x => x.data.categoryIndex == 7)
-                    let cat8List = spends.filter(x => x.data.categoryIndex == 8)
-
-                    cat0.list = cat0List;
-                    cat1.list = cat1List;
-                    cat2.list = cat2List;
-                    cat3.list = cat3List;
-                    cat4.list = cat4List;
-                    cat5.list = cat5List;
-                    cat6.list = cat6List;
-                    cat7.list = cat7List;
-                    cat8.list = cat8List;
-
-                    // Grand Total
-                    let grandTotal = 0
-                    if (cat0List.length) {
-                        let total = 0;
-                        for (let i = 0; i < cat0List.length; i++) {
-                            total += Number(cat0List[i].data.money)
-                        }
-                        cat0.total = total;
-                        grandTotal += total
+                    for (let i = 0; i < spends.length; i++) {
+                        const element = spends[i];
+                        grandTotal += Number(element.data.money)
+                        let monthIndex = new Date(element.data.date).getMonth()
+                        arr[monthIndex].total += Number(element.data.money)
+                        arr[monthIndex].list.push(element)
                     }
-                    if (cat1List.length) {
-                        let total = 0;
-                        for (let i = 0; i < cat1List.length; i++) {
-                            total += Number(cat1List[i].data.money)
-                        }
-                        cat1.total = total;
-                        grandTotal += total
-                    }
-                    if (cat2List.length) {
-                        let total = 0;
-                        for (let i = 0; i < cat2List.length; i++) {
-                            total += Number(cat2List[i].data.money)
-                        }
-                        cat2.total = total;
-                        grandTotal += total
-                    }
-                    if (cat3List.length) {
-                        let total = 0;
-                        for (let i = 0; i < cat3List.length; i++) {
-                            total += Number(cat3List[i].data.money)
-                        }
-                        cat3.total = total;
-                        grandTotal += total
-                    }
-                    if (cat4List.length) {
-                        let total = 0;
-                        for (let i = 0; i < cat4List.length; i++) {
-                            total += Number(cat4List[i].data.money)
-                        }
-                        cat4.total = total;
-                        grandTotal += total
-                    }
-                    if (cat5List.length) {
-                        let total = 0;
-                        for (let i = 0; i < cat5List.length; i++) {
-                            total += Number(cat5List[i].data.money)
-                        }
-                        cat5.total = total;
-                        grandTotal += total
-                    }
-                    if (cat6List.length) {
-                        let total = 0;
-                        for (let i = 0; i < cat6List.length; i++) {
-                            total += Number(cat6List[i].data.money)
-                        }
-                        cat6.total = total;
-                        grandTotal += total
-                    }
-                    if (cat7List.length) {
-                        let total = 0;
-                        for (let i = 0; i < cat7List.length; i++) {
-                            total += Number(cat7List[i].data.money)
-                        }
-                        cat7.total = total;
-                        grandTotal += total
-                    }
-                    if (cat8List.length) {
-                        let total = 0;
-                        for (let i = 0; i < cat8List.length; i++) {
-                            total += Number(cat8List[i].data.money)
-                        }
-                        cat8.total = total;
-                        grandTotal += total
-                    }
+                    console.log(arr, 'arrarr')
+                    setSpends([...arr])
                     setTotalSpends(grandTotal)
-                    setSpends([...[cat0, cat1, cat2, cat3, cat4, cat5, cat6, cat7, cat8]])
+                    // setSpends(arr)
                 }
-            });
-
+            })
         })
-
+        // let arr = spends.filter(x>)
     }, [isBudgetActive])
 
     return (
@@ -140,12 +43,12 @@ const ViewBudget = ({ isBudgetActive }) => {
             <View style={{ alignItems: 'center', marginVertical: 25 }}>
                 <Text style={{ fontSize: 28, fontWeight: 'bold', color: 'green' }}>{'$' + totalSpends}</Text>
             </View>
-            <Text style={{ marginHorizontal: 25 }}>Sort by Category</Text>
+            <Text style={{ marginHorizontal: 25 }}>Sort by Year</Text>
             {spends && <ScrollView contentContainerStyle={{ marginHorizontal: 25, paddingBottom: 50 }}>
                 <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 0 ? undefined : 0)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
                         <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 14 }}>Mokesčiai</Text>
+                            <Text style={{ fontSize: 14 }}>January</Text>
                         </View>
                         <View style={{}}>
                             <Text style={{ fontSize: 14 }}>{'$' + spends[0].total}</Text>
@@ -156,7 +59,7 @@ const ViewBudget = ({ isBudgetActive }) => {
                 <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 1 ? undefined : 1)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
                         <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 16 }}>Komunalinės</Text>
+                            <Text style={{ fontSize: 16 }}>February</Text>
                         </View>
                         <View style={{}}>
                             <Text style={{ fontSize: 16 }}>{'$' + spends[1].total}</Text>
@@ -167,7 +70,7 @@ const ViewBudget = ({ isBudgetActive }) => {
                 <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 2 ? undefined : 2)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
                         <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 16 }}>Nuoma</Text>
+                            <Text style={{ fontSize: 16 }}>March </Text>
                         </View>
                         <View style={{}}>
                             <Text style={{ fontSize: 16 }}>{'$' + spends[2].total}</Text>
@@ -178,7 +81,7 @@ const ViewBudget = ({ isBudgetActive }) => {
                 <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 3 ? undefined : 3)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
                         <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 16 }}>Maistas</Text>
+                            <Text style={{ fontSize: 16 }}>April </Text>
                         </View>
                         <View style={{}}>
                             <Text style={{ fontSize: 16 }}>{'$' + spends[3].total}</Text>
@@ -189,7 +92,7 @@ const ViewBudget = ({ isBudgetActive }) => {
                 <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 4 ? undefined : 4)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
                         <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 16 }}>Pramogos</Text>
+                            <Text style={{ fontSize: 16 }}>May </Text>
                         </View>
                         <View style={{}}>
                             <Text style={{ fontSize: 16 }}>{'$' + spends[4].total}</Text>
@@ -200,7 +103,7 @@ const ViewBudget = ({ isBudgetActive }) => {
                 <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 5 ? undefined : 5)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
                         <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 16 }}>Gėrimai</Text>
+                            <Text style={{ fontSize: 16 }}>June </Text>
                         </View>
                         <View style={{}}>
                             <Text style={{ fontSize: 16 }}>{'$' + spends[5].total}</Text>
@@ -211,7 +114,7 @@ const ViewBudget = ({ isBudgetActive }) => {
                 <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 6 ? undefined : 6)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
                         <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 16 }}>Degalai</Text>
+                            <Text style={{ fontSize: 16 }}>July </Text>
                         </View>
                         <View style={{}}>
                             <Text style={{ fontSize: 16 }}>{'$' + spends[6].total}</Text>
@@ -222,7 +125,7 @@ const ViewBudget = ({ isBudgetActive }) => {
                 <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 7 ? undefined : 7)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
                         <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 16 }}>Turto prižiūrėjimas</Text>
+                            <Text style={{ fontSize: 16 }}>August </Text>
                         </View>
                         <View style={{}}>
                             <Text style={{ fontSize: 16 }}>{'$' + spends[7].total}</Text>
@@ -233,7 +136,7 @@ const ViewBudget = ({ isBudgetActive }) => {
                 <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 8 ? undefined : 8)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
                         <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 16 }}>Rūbai</Text>
+                            <Text style={{ fontSize: 16 }}>September</Text>
                         </View>
                         <View style={{}}>
                             <Text style={{ fontSize: 16 }}>{'$' + spends[8].total}</Text>
@@ -241,9 +144,42 @@ const ViewBudget = ({ isBudgetActive }) => {
                     </View>
                 </TouchableOpacity>
                 {activeIndex == 8 && <SubEntries data={spends[8].list} />}
+                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 9 ? undefined : 9)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
+                        <View style={{ flex: 1 }}>
+                            <Text style={{ fontSize: 16 }}>October</Text>
+                        </View>
+                        <View style={{}}>
+                            <Text style={{ fontSize: 16 }}>{'$' + spends[9].total}</Text>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+                {activeIndex == 9 && <SubEntries data={spends[9].list} />}
+                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 10 ? undefined : 10)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
+                        <View style={{ flex: 1 }}>
+                            <Text style={{ fontSize: 16 }}>November</Text>
+                        </View>
+                        <View style={{}}>
+                            <Text style={{ fontSize: 16 }}>{'$' + spends[10].total}</Text>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+                {activeIndex == 10 && <SubEntries data={spends[10].list} />}
+                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 11 ? undefined : 11)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
+                        <View style={{ flex: 1 }}>
+                            <Text style={{ fontSize: 16 }}>December</Text>
+                        </View>
+                        <View style={{}}>
+                            <Text style={{ fontSize: 16 }}>{'$' + spends[11].total}</Text>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+                {activeIndex == 11 && <SubEntries data={spends[11].list} />}
             </ScrollView>}
         </View>
     )
 }
 
-export default ViewBudget;
+export default ByYearly;

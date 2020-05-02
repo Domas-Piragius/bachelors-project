@@ -3,6 +3,7 @@ import { View, Text, TextInput, Image, TouchableOpacity, ScrollView } from 'reac
 import Header from '../Components/Header';
 import AddBudget from './AddBuget';
 import ByMonth from './ByMonth';
+import ByYearly from './ByYearly';
 import ViewBudget from './ViewBudget';
 import Swiper from '../Components/RNSwiper'
 
@@ -16,10 +17,13 @@ const BudgetPlanner = () => {
                 onIndexChanged={(index) => setIsBudgetActive(index)}
                 style={{ flex: 1 }}>
                 <View style={{ flex: 1 }}>
+                    <AddBudget />
+                </View>
+                <View style={{ flex: 1 }}>
                     <ByMonth />
                 </View>
                 <View style={{ flex: 1 }}>
-                    <AddBudget />
+                    <ByYearly />
                 </View>
                 <View style={{ flex: 1 }}>
                     <ViewBudget isBudgetActive={isBudgetActive} />

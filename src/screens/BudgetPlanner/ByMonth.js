@@ -7,14 +7,18 @@ import SubEntries from './SubEntries'
 
 const ByMonth = ({ isBudgetActive }) => {
 
-    const [spends, setSpends] = useState( [{ total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }])
+    const [spends, setSpends] = useState([{ total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }])
     const [totalSpends, setTotalSpends] = useState(0)
     const [activeIndex, setActiveIndex] = useState(undefined)
 
     useEffect(() => {
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
         let uid = auth().currentUser.uid;
         let spends = []
         let grandTotal = 0;
+        let normalizedData = {}
         let arr = [{ total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }]
         firestore().collection(uid).doc('spends').collection('spends').get().then(async (querySnapshot) => {
             await querySnapshot.forEach(function (doc, index) {
@@ -25,11 +29,19 @@ const ByMonth = ({ isBudgetActive }) => {
                         const element = spends[i];
                         grandTotal += Number(element.data.money)
                         let monthIndex = new Date(element.data.date).getMonth()
-                        arr[monthIndex].total += Number(element.data.money)
-                        arr[monthIndex].list.push(element)
+                        let fullyear = new Date(element.data.date).getFullYear()
+                        if (!normalizedData[`${monthNames[monthIndex]}-${fullyear}`]) {
+                            normalizedData[`${monthNames[monthIndex]}-${fullyear}`] = { total: 0, list: [] }
+                        }
+                        normalizedData[`${monthNames[monthIndex]}-${fullyear}`].list.push(element);
+                        normalizedData[`${monthNames[monthIndex]}-${fullyear}`].total += Number(element.data.money)
+                        normalizedData[`${monthNames[monthIndex]}-${fullyear}`].date = element.data.date
+                        normalizedData[`${monthNames[monthIndex]}-${fullyear}`].monthYear = `${monthNames[monthIndex]}-${fullyear}`
                     }
-                    console.log(arr, 'arrarr')
-                    setSpends([...arr])
+                    let normalizedArray = Object.values(normalizedData)
+                    normalizedArray.sort((a, b) => new Date(b.date) - new Date(a.date))
+                    console.log(normalizedArray, 'normalizedData')
+                    setSpends([...normalizedArray])
                     setTotalSpends(grandTotal)
                     // setSpends(arr)
                 }
@@ -45,17 +57,32 @@ const ByMonth = ({ isBudgetActive }) => {
             </View>
             <Text style={{ marginHorizontal: 25 }}>Sort by Month</Text>
             {spends && <ScrollView contentContainerStyle={{ marginHorizontal: 25, paddingBottom: 50 }}>
-                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 0 ? undefined : 0)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
-                        <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 14 }}>January</Text>
-                        </View>
-                        <View style={{}}>
-                            <Text style={{ fontSize: 14 }}>{'$' + spends[0].total}</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-                {activeIndex == 0 && <SubEntries data={spends[0].list} />}
+
+                <FlatList
+                    data={spends}
+                    style={{ flex: 1 }}
+                    renderItem={({ item, index }) => {
+                        return (
+                            <>
+                                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == index ? undefined : index)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
+                                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
+                                        <View style={{ flex: 1 }}>
+                                            <Text style={{ fontSize: 14 }}>{item.monthYear}</Text>
+                                        </View>
+                                        <View style={{}}>
+                                            <Text style={{ fontSize: 14 }}>{'$' + item.total}</Text>
+                                        </View>
+                                    </View>
+                                </TouchableOpacity>
+                                {activeIndex == index && <SubEntries data={spends[index].list} />}
+                            </>
+                        )
+                    }}
+                />
+
+                {/* {activeIndex == 0 && <SubEntries data={spends[0].list} />}
+
+
                 <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 1 ? undefined : 1)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
                         <View style={{ flex: 1 }}>
@@ -176,7 +203,7 @@ const ByMonth = ({ isBudgetActive }) => {
                         </View>
                     </View>
                 </TouchableOpacity>
-                {activeIndex == 11 && <SubEntries data={spends[11].list} />}
+                {activeIndex == 11 && <SubEntries data={spends[11].list} />} */}
             </ScrollView>}
         </View>
     )
