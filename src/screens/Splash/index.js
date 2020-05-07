@@ -15,7 +15,7 @@ const Splash = ({ navigation }) => {
         }, 1000)
     }, [])
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor:'#394948' }}>
             <Image style={{ width: 150, height: 150 }} source={require('../../images/logo.png')} />
         </View>
     )

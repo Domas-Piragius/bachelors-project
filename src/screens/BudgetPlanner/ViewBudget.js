@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, TouchableOpacity, ScrollView, TextInput, FlatList } from 'react-native';
+import { View, Text, Image, TouchableOpacity, ScrollView, TextInput, FlatList, StyleSheet } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import firestore, { firebase } from '@react-native-firebase/firestore';
 import SubEntries from './SubEntries'
@@ -16,12 +16,9 @@ const ViewBudget = ({ isBudgetActive }) => {
         let uid = auth().currentUser.uid;
         let spends = []
         firestore().collection(uid).doc('spends').collection('spends').get().then(async (querySnapshot) => {
-            console.log(querySnapshot.size, 'querySnapshot')
             await querySnapshot.forEach(function (doc, index) {
-                console.log(doc.id, " => ", doc.data());
                 spends.push({ key: doc.id, data: doc.data() })
                 if (index == querySnapshot.size - 1) {
-                    console.log(spends, 'SPENDS')
                     let cat0 = { total: 0, list: [] }
                     let cat1 = { total: 0, list: [] }
                     let cat2 = { total: 0, list: [] }
@@ -136,107 +133,107 @@ const ViewBudget = ({ isBudgetActive }) => {
     }, [isBudgetActive])
 
     return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, backgroundColor : '#394948'  }}>
             <View style={{ alignItems: 'center', marginVertical: 25 }}>
-                <Text style={{ fontSize: 28, fontWeight: 'bold', color: 'green' }}>{'$' + totalSpends}</Text>
+                <Text style={{ fontSize: 28, fontWeight: 'bold', color: '#fff' }}>{'€' + totalSpends}</Text>
             </View>
-            <Text style={{ marginHorizontal: 25 }}>Sort by Category (All the time)</Text>
+            <Text style={{ marginHorizontal: 25, color : '#fff' }}>Rūšiuoti pagal kategoriją (visą laiką)</Text>
             {spends && <ScrollView contentContainerStyle={{ marginHorizontal: 25, paddingBottom: 50 }}>
-                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 0 ? undefined : 0)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 0 ? undefined : 0)} style={styles.btnCont}>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
                         <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 14 }}>Mokesčiai</Text>
+                            <Text style={styles.labelText}>Mokesčiai</Text>
                         </View>
                         <View style={{}}>
-                            <Text style={{ fontSize: 14 }}>{'$' + spends[0].total}</Text>
+                            <Text style={styles.labelText}>{'€' + spends[0].total}</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
                 {activeIndex == 0 && <SubEntries data={spends[0].list} />}
-                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 1 ? undefined : 1)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 1 ? undefined : 1)} style={styles.btnCont}>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
                         <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 16 }}>Komunalinės</Text>
+                            <Text style={styles.labelText}>Komunalinės</Text>
                         </View>
                         <View style={{}}>
-                            <Text style={{ fontSize: 16 }}>{'$' + spends[1].total}</Text>
+                            <Text style={styles.labelText}>{'€' + spends[1].total}</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
                 {activeIndex == 1 && <SubEntries data={spends[1].list} />}
-                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 2 ? undefined : 2)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 2 ? undefined : 2)} style={styles.btnCont}>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
                         <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 16 }}>Nuoma</Text>
+                            <Text style={styles.labelText}>Nuoma</Text>
                         </View>
                         <View style={{}}>
-                            <Text style={{ fontSize: 16 }}>{'$' + spends[2].total}</Text>
+                            <Text style={styles.labelText}>{'€' + spends[2].total}</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
                 {activeIndex == 2 && <SubEntries data={spends[2].list} />}
-                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 3 ? undefined : 3)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 3 ? undefined : 3)} style={styles.btnCont}>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
                         <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 16 }}>Maistas</Text>
+                            <Text style={styles.labelText}>Maistas</Text>
                         </View>
                         <View style={{}}>
-                            <Text style={{ fontSize: 16 }}>{'$' + spends[3].total}</Text>
+                            <Text style={styles.labelText}>{'€' + spends[3].total}</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
                 {activeIndex == 3 && <SubEntries data={spends[3].list} />}
-                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 4 ? undefined : 4)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 4 ? undefined : 4)} style={styles.btnCont}>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
                         <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 16 }}>Pramogos</Text>
+                            <Text style={styles.labelText}>Pramogos</Text>
                         </View>
                         <View style={{}}>
-                            <Text style={{ fontSize: 16 }}>{'$' + spends[4].total}</Text>
+                            <Text style={styles.labelText}>{'€' + spends[4].total}</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
                 {activeIndex == 4 && <SubEntries data={spends[4].list} />}
-                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 5 ? undefined : 5)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 5 ? undefined : 5)} style={styles.btnCont}>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
                         <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 16 }}>Gėrimai</Text>
+                            <Text style={styles.labelText}>Gėrimai</Text>
                         </View>
                         <View style={{}}>
-                            <Text style={{ fontSize: 16 }}>{'$' + spends[5].total}</Text>
+                            <Text style={styles.labelText}>{'€' + spends[5].total}</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
                 {activeIndex == 5 && <SubEntries data={spends[5].list} />}
-                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 6 ? undefined : 6)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 6 ? undefined : 6)} style={styles.btnCont}>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
                         <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 16 }}>Degalai</Text>
+                            <Text style={styles.labelText}>Degalai</Text>
                         </View>
                         <View style={{}}>
-                            <Text style={{ fontSize: 16 }}>{'$' + spends[6].total}</Text>
+                            <Text style={styles.labelText}>{'€' + spends[6].total}</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
                 {activeIndex == 6 && <SubEntries data={spends[6].list} />}
-                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 7 ? undefined : 7)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 7 ? undefined : 7)} style={styles.btnCont}>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
                         <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 16 }}>Turto prižiūrėjimas</Text>
+                            <Text style={styles.labelText}>Turto prižiūrėjimas</Text>
                         </View>
                         <View style={{}}>
-                            <Text style={{ fontSize: 16 }}>{'$' + spends[7].total}</Text>
+                            <Text style={styles.labelText}>{'€' + spends[7].total}</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
                 {activeIndex == 7 && <SubEntries data={spends[7].list} />}
-                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 8 ? undefined : 8)} style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#fff', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 8 ? undefined : 8)} style={styles.btnCont}>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
                         <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 16 }}>Rūbai</Text>
+                            <Text style={styles.labelText}>Rūbai</Text>
                         </View>
                         <View style={{}}>
-                            <Text style={{ fontSize: 16 }}>{'$' + spends[8].total}</Text>
+                            <Text style={styles.labelText}>{'€' + spends[8].total}</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -245,5 +242,12 @@ const ViewBudget = ({ isBudgetActive }) => {
         </View>
     )
 }
-
+const styles = StyleSheet.create({
+    btnCont: {
+        height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#479B92', borderColor: 'gray', borderWidth: 1, justifyContent: 'center', alignItems: 'center'
+    },
+    labelText: {
+        fontSize: 16, color: '#fff'
+    }
+})
 export default ViewBudget;

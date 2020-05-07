@@ -13,21 +13,22 @@ const BudgetPlanner = () => {
     const [isBudgetActive, setIsBudgetActive] = useState(0)
 
     return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, backgroundColor: '#394948' }}>
             <Swiper
+                activeDotColor={'#fff'}
                 onIndexChanged={(index) => setIsBudgetActive(index)}
                 style={{ flex: 1 }}>
                 <View style={{ flex: 1 }}>
                     <AddBudget />
                 </View>
                 <View style={{ flex: 1 }}>
-                    <ThisMonth isBudgetActive={isBudgetActive}/>
+                    <ThisMonth isBudgetActive={isBudgetActive} />
                 </View>
                 <View style={{ flex: 1 }}>
-                    <ByMonth isBudgetActive={isBudgetActive}/>
+                    <ByMonth isBudgetActive={isBudgetActive} />
                 </View>
                 <View style={{ flex: 1 }}>
-                    <ByYearly isBudgetActive={isBudgetActive}/>
+                    <ByYearly isBudgetActive={isBudgetActive} />
                 </View>
                 <View style={{ flex: 1 }}>
                     <ViewBudget isBudgetActive={isBudgetActive} />

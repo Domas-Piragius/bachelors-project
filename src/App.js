@@ -20,11 +20,11 @@ const App = () => {
         <NavigationContainer>
             <Stack.Navigator >
                 <Stack.Screen options={{ title: 'Welcome', header: () => { } }} name="splash" component={Splash} />
-                <Stack.Screen options={{ title: 'Login', header: () => { } }} name="Login" component={Login} />
-                <Stack.Screen options={{ title: '' }} name="Home" component={Home} />
+                <Stack.Screen options={{ title: 'Prisijungimas', header: () => { } }} name="Login" component={Login} />
+                <Stack.Screen options={{ title: '', header: () => { } }} name="Home" component={Home} />
                 <Stack.Screen options={{ title: '' }} name="TaxCalculator" component={TaxCalculator} />
                 <Stack.Screen options={{ title: '' }} name="CustomTaxCalculator" component={CustomTaxCalculator} />
-                <Stack.Screen options={{ title: 'Spend Calculator' }} name="BudgetPlanner" component={BudgetPlanner} />
+                <Stack.Screen options={{ title: 'Išleisk skaičiuoklę' }} name="BudgetPlanner" component={BudgetPlanner} />
                 <Stack.Screen options={{ title: '' }} name="Formulas" component={Formulas} />
                 <Stack.Screen options={{ title: '' }} name="News" component={News} />
             </Stack.Navigator>
