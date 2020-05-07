@@ -29,13 +29,13 @@ const ByYearly = ({ isBudgetActive }) => {
                         grandTotal += Number(element.data.money)
                         let monthIndex = new Date(element.data.date).getMonth()
                         let fullyear = new Date(element.data.date).getFullYear()
-                        if (!normalizedData[`€{fullyear}`]) {
-                            normalizedData[`€{fullyear}`] = { total: 0, list: [] }
+                        if (!normalizedData[`${fullyear}`]) {
+                            normalizedData[`${fullyear}`] = { total: 0, list: [] }
                         }
-                        normalizedData[`€{fullyear}`].list.push(element);
-                        normalizedData[`€{fullyear}`].total += Number(element.data.money)
-                        normalizedData[`€{fullyear}`].date = element.data.date
-                        normalizedData[`€{fullyear}`].monthYear = `€{fullyear}`
+                        normalizedData[`${fullyear}`].list.push(element);
+                        normalizedData[`${fullyear}`].total += Number(element.data.money)
+                        normalizedData[`${fullyear}`].date = element.data.date
+                        normalizedData[`${fullyear}`].monthYear = `${fullyear}`
                     }
                     let normalizedArray = Object.values(normalizedData)
                     normalizedArray.sort((a, b) => new Date(b.date) - new Date(a.date))
