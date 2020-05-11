@@ -13,7 +13,7 @@ const SubEntries = ({ data }) => {
                                 <Text style={styles.labelText}>{item.data.category}</Text>
                             </View>
                             <View style={{}}>
-                                <Text style={styles.labelText}>{'€' + item.data.money}</Text>
+                                <Text style={styles.labelText}>{ item.data.money+'€' }</Text>
                             </View>
                         </View>
                     </View>

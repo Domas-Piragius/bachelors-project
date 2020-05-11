@@ -7,7 +7,7 @@ import SubEntries from './SubEntries'
 
 const ViewBudget = ({ isBudgetActive }) => {
 
-    const [spends, setSpends] = useState([{ total: 0 }, { total: 0 }, { total: 0 }, { total: 0 }, { total: 0 }, { total: 0 }, { total: 0 }, { total: 0 },{total : 0}])
+    const [spends, setSpends] = useState([{ total: 0 }, { total: 0 }, { total: 0 }, { total: 0 }, { total: 0 }, { total: 0 }, { total: 0 }, { total: 0 }, { total: 0 }])
     const [totalSpends, setTotalSpends] = useState(0)
     const [activeIndex, setActiveIndex] = useState(undefined)
 
@@ -133,11 +133,11 @@ const ViewBudget = ({ isBudgetActive }) => {
     }, [isBudgetActive])
 
     return (
-        <View style={{ flex: 1, backgroundColor : '#394948'  }}>
+        <View style={{ flex: 1, backgroundColor: '#394948' }}>
             <View style={{ alignItems: 'center', marginVertical: 25 }}>
-                <Text style={{ fontSize: 28, fontWeight: 'bold', color: '#fff' }}>{'€' + totalSpends}</Text>
+                <Text style={{ fontSize: 28, fontWeight: 'bold', color: '#fff' }}>{totalSpends + '€'}</Text>
             </View>
-            <Text style={{ marginHorizontal: 25, color : '#fff' }}>Rūšiuoti pagal kategoriją (visą laiką)</Text>
+            <Text style={{ marginHorizontal: 25, color: '#fff' }}>Rūšiuoti pagal kategoriją (visą laiką)</Text>
             {spends && <ScrollView contentContainerStyle={{ marginHorizontal: 25, paddingBottom: 50 }}>
                 <TouchableOpacity onPress={() => setActiveIndex(activeIndex == 0 ? undefined : 0)} style={styles.btnCont}>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
@@ -145,7 +145,7 @@ const ViewBudget = ({ isBudgetActive }) => {
                             <Text style={styles.labelText}>Mokesčiai</Text>
                         </View>
                         <View style={{}}>
-                            <Text style={styles.labelText}>{'€' + spends[0].total}</Text>
+                            <Text style={styles.labelText}>{spends[0].total + '€'}</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -156,7 +156,7 @@ const ViewBudget = ({ isBudgetActive }) => {
                             <Text style={styles.labelText}>Komunalinės</Text>
                         </View>
                         <View style={{}}>
-                            <Text style={styles.labelText}>{'€' + spends[1].total}</Text>
+                            <Text style={styles.labelText}>{spends[1].total + '€'}</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -167,7 +167,7 @@ const ViewBudget = ({ isBudgetActive }) => {
                             <Text style={styles.labelText}>Nuoma</Text>
                         </View>
                         <View style={{}}>
-                            <Text style={styles.labelText}>{'€' + spends[2].total}</Text>
+                            <Text style={styles.labelText}>{spends[2].total + '€'}</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -178,7 +178,7 @@ const ViewBudget = ({ isBudgetActive }) => {
                             <Text style={styles.labelText}>Maistas</Text>
                         </View>
                         <View style={{}}>
-                            <Text style={styles.labelText}>{'€' + spends[3].total}</Text>
+                            <Text style={styles.labelText}>{spends[3].total + '€'}</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -189,7 +189,7 @@ const ViewBudget = ({ isBudgetActive }) => {
                             <Text style={styles.labelText}>Pramogos</Text>
                         </View>
                         <View style={{}}>
-                            <Text style={styles.labelText}>{'€' + spends[4].total}</Text>
+                            <Text style={styles.labelText}>{spends[4].total + '€'}</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -200,7 +200,7 @@ const ViewBudget = ({ isBudgetActive }) => {
                             <Text style={styles.labelText}>Gėrimai</Text>
                         </View>
                         <View style={{}}>
-                            <Text style={styles.labelText}>{'€' + spends[5].total}</Text>
+                            <Text style={styles.labelText}>{spends[5].total + '€'}</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -211,7 +211,7 @@ const ViewBudget = ({ isBudgetActive }) => {
                             <Text style={styles.labelText}>Degalai</Text>
                         </View>
                         <View style={{}}>
-                            <Text style={styles.labelText}>{'€' + spends[6].total}</Text>
+                            <Text style={styles.labelText}>{spends[6].total + '€'}</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -222,7 +222,7 @@ const ViewBudget = ({ isBudgetActive }) => {
                             <Text style={styles.labelText}>Turto prižiūrėjimas</Text>
                         </View>
                         <View style={{}}>
-                            <Text style={styles.labelText}>{'€' + spends[7].total}</Text>
+                            <Text style={styles.labelText}>{spends[7].total + '€'}</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -233,7 +233,7 @@ const ViewBudget = ({ isBudgetActive }) => {
                             <Text style={styles.labelText}>Rūbai</Text>
                         </View>
                         <View style={{}}>
-                            <Text style={styles.labelText}>{'€' + spends[8].total}</Text>
+                            <Text style={styles.labelText}>{spends[8].total + '€'}</Text>
                         </View>
                     </View>
                 </TouchableOpacity>

@@ -11,9 +11,6 @@ const Home = ({ navigation }) => {
     const goToFormulas = () => {
         navigation.navigate('Formulas')
     }
-    const goToNews = () => {
-        navigation.navigate('News')
-    }
     return (
         <View style={{ flex: 1, backgroundColor: '#394948', justifyContent: 'center' }}>
             <View style={{ alignItems: 'center', }} >
@@ -44,14 +41,6 @@ const Home = ({ navigation }) => {
                         </View>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={goToNews} style={styles.btnCont}>
-                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <Text style={styles.btnText}>Naujienos</Text>
-                        <View style={{ backgroundColor: 'white', borderRadius: 10, marginHorizontal: 20 }}>
-                            <Image style={{ width: 30, height: 30 }} source={require('../../images/news.png')} />
-                        </View>
-                    </View>
-                </TouchableOpacity>
             </View >
         </View >
     )
@@ -61,7 +50,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#479B92', height: 50, borderRadius: 10, marginVertical: 10, justifyContent: 'center', alignItems: 'center', borderColor: 'gray', borderWidth: .8
     },
     btnText: {
-        flex: 1, textAlign: 'center', fontSize: 20, color :'#fff'
+        flex: 1, textAlign: 'center', fontSize: 20, color: '#fff'
     }
 })
 export default Home;

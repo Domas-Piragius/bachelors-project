@@ -22,7 +22,7 @@ const ByYearly = ({ isBudgetActive }) => {
         let arr = [{ total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }, { total: 0, list: [] }]
         firestore().collection(uid).doc('spends').collection('spends').get().then(async (querySnapshot) => {
             await querySnapshot.forEach(function (doc, index) {
-                 spends.push({ key: doc.id, data: doc.data() })
+                spends.push({ key: doc.id, data: doc.data() })
                 if (index == querySnapshot.size - 1) {
                     for (let i = 0; i < spends.length; i++) {
                         const element = spends[i];
@@ -39,7 +39,7 @@ const ByYearly = ({ isBudgetActive }) => {
                     }
                     let normalizedArray = Object.values(normalizedData)
                     normalizedArray.sort((a, b) => new Date(b.date) - new Date(a.date))
-                     setSpends([...normalizedArray])
+                    setSpends([...normalizedArray])
                     setTotalSpends(grandTotal)
                     // setSpends(arr)
                 }
@@ -51,7 +51,7 @@ const ByYearly = ({ isBudgetActive }) => {
     return (
         <View style={{ flex: 1 }}>
             <View style={{ alignItems: 'center', marginVertical: 25 }}>
-                <Text style={{ fontSize: 28, fontWeight: 'bold', color: '#fff' }}>{'€' + totalSpends}</Text>
+                <Text style={{ fontSize: 28, fontWeight: 'bold', color: '#fff' }}>{totalSpends + '€'}</Text>
             </View>
             <Text style={{ marginHorizontal: 25, color: '#fff' }}>Rūšiuoti pagal metus (visą laiką)</Text>
             {spends && <ScrollView contentContainerStyle={{ marginHorizontal: 25, paddingBottom: 50 }}>
@@ -67,7 +67,7 @@ const ByYearly = ({ isBudgetActive }) => {
                                             <Text style={styles.labelText}>{item.monthYear}</Text>
                                         </View>
                                         <View style={{}}>
-                                            <Text style={styles.labelText}>{'€' + item.total}</Text>
+                                            <Text style={styles.labelText}>{item.total + '€'}</Text>
                                         </View>
                                     </View>
                                 </TouchableOpacity>

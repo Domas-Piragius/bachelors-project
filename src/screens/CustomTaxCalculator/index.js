@@ -5,7 +5,234 @@ import { Picker } from '@react-native-community/picker';
 
 const CustomTaxCalculator = () => {
 
-    const [activeQuestion, setActiveQuestion] = useState(0)
+    const [output1, setOutput1] = useState('')
+    const [output2, setOutput2] = useState('')
+    const [salary, setSalary] = useState('')
+
+    const [NDPLabel, setNDPLabel] = useState('Calculated automatically')
+    const [accumulateForRetirementExtraLabel, setAccumulateForRetirementExtraLabel] = useState('I do not accumulate')
+    const [additionalInformationLabel, setAdditionalInformationLabel] = useState('None of the options')
+    const [yourNationalityLabel, setYourNationalityLabel] = useState('Lithuanian')
+    const [accidentsAndOccupationalDiseasesLabel, setAccidentsAndOccupationalDiseasesLabel] = useState('1 - 0,14%')
+    const [employmentContractLabel, setEmploymentContractLabel] = useState('Indefinite duration')
+
+
+    // const [NDP, setNDP] = useState(0)
+    // const [accumulateForRetirementExtra, setAccumulateForRetirementExtra] = useState(0)
+    // const [yourNationality, setYourNationality] = useState(0)
+    // const [additionalInformation, setAdditionalInformation] = useState(0)
+    // const [accidentsAndOccupationalDiseases, setAccidentsAndOccupationalDiseases] = useState(0)
+    // const [employmentContract, setEmploymentContract] = useState(0)
+
+    const onChangeNPD = (itemValue, itemIndex) => {
+        // if User select 'Calculated automatically'
+        // 1. Z = 350 - 0,17 * ( X – 607) and '( X – 607)' part cant be negative
+        // 2. full formula: Y = X - (X - Z) * 0,2 - X * 0,0872 - X * 0,0698 - X * 0,0209 - X * 0,0171
+
+        let X = Number(salary);
+        let Z = 0;
+        if (itemValue == 'Calculated automatically') {
+            let notNegativePart = X - 607 < 0 ? 0 : X - 607;
+            Z = 350 - 0.17 * notNegativePart
+        } else if (itemValue == 'Don’t calculate') {
+            Z = 0
+        } else if (itemValue == '30-55%') {
+            Z = 600
+        } else if (itemValue == '0-25%') {
+            Z = 645
+        }
+        let notNegativePart = (X - Z) < 0 ? 0 : (X - Z)
+        let Y = notNegativePart * 0.2
+        // (X - Z) * 0,2
+        // console.log('Y =', Y, 'Z = ', Z)
+        return Y
+        // setNDP(Number(Y));
+    }
+
+    const onChangeAccumulateForRetirementExtra = (itemValue, itemIndex) => {
+        setAccidentsAndOccupationalDiseasesLabel(itemValue)
+        // => Option 1 - I do not accumulate
+        // 1.Formula : Y = X - (X - Z) * 0,2 - X * 0,0872 - X * 0,0698 - X * 0,0209 - X * 0,0171
+
+        // => Option 2 - I am accumulating 2.1%
+        // 1. Formula : Y = X - (X - Z) * 0,2 - X * 0,1082 - X * 0,0698 - X * 0,0209 - X * 0,0171
+
+        // => Option 3 - I am accumulating 3%
+        // 1. Formula : Y = X - (X - Z) * 0,2 - X * 0,1172 - X * 0,0698 - X * 0,0209 - X * 0,0171 
+        let X = Number(salary);
+        let Z = 0
+        let Y = 0
+        let notNegativePart = X - 607 < 0 ? 0 : X - 607;
+        Z = 350 - 0.17 * notNegativePart
+        // console.log('Accumulated Z=', Z)
+        let notNegativePartInY = X - Z < 0 ? 0 : X - Z
+        if (itemValue == 'I do not accumulate') {
+            Y = X * 0.0872
+        } else if (itemValue == 'I am accumulating 2.1%') {
+            Y = X * 0.1082
+        } else if (itemValue == 'I am accumulating 3%') {
+            Y = X * 0.1172
+        }
+        // console.log('Accumulated Y=', Y)
+        return Y
+
+        // setAccumulateForRetirementExtra(Y)
+
+
+    }
+
+    const onChangeAdditionalInformation = (itemValue, itemIndex) => {
+        setAdditionalInformationLabel(itemValue)
+        // For - Additional information
+        // ---------------------------------------
+
+        // => Option 1 - I work in several workplaces
+        // 1. Formula: Y = X + X*0,0131 + X * 0,0016 + X * 0,0016 + X * 0,0014
+
+        // => Option 2 - I am receiving a retirement pension
+        // 1. Formula:  Y = X + X*0,0131 + X * 0,0016 + X * 0,0016 + X * 0,0014
+
+        // => Option 3 - I am younger than 24m
+        // 1. Formula:  Y = X + X*0,0131 + X * 0,0016 + X * 0,0016 + X * 0,0014
+
+        // => Option 3 -None of the options ......
+        // 1. Formula:  Y = X + X*0,0131 + X * 0,0016 + X * 0,0016 + X * 0,0014 + (607-X) * 0,2127
+
+
+        let X = Number(salary);
+        let Z = 0
+        let Y = 0
+        let notNegativePart = X - 607 < 0 ? 0 : X - 607;
+        Z = 350 - 0.17 * notNegativePart
+        if (itemValue == 'I work in several workplaces') {
+            Y = 0
+        } else if (itemValue == 'I am receiving a retirement pension') {
+            Y = 0
+        } else if (itemValue == 'I am younger than 24m') {
+            Y = 0
+        } else if (itemValue == 'None of the options') {
+            Y = ((607 - X) < 0 ? 0 : (607 - X)) * 0.2127
+        }
+        return Y
+
+        // setAdditionalInformation(Y);
+    }
+
+    const onChangeEmploymentContract = (itemValue, itemIndex) => {
+        setEmploymentContractLabel(itemValue)
+        // 6 - For - The type of your employment contract
+        // Option 1 - employment contract on Indefinite duration
+        // Y = Y(2)= X + X*0,0131 + X * 0,0016 + X * 0,0016 + X * 0,0014
+
+        // Opiton 2 - Fixed term employment contract
+        // sss
+        // Y(2) = X + X*0,0203 + X * 0,0016 + X * 0,0016 + X * 0,0014
+        let X = Number(salary);
+        let Z = 0
+        let Y = 0
+        let notNegativePart = X - 607 < 0 ? 0 : X - 607;
+        Z = 350 - 0.17 * notNegativePart
+        if (itemValue == 'Indefinite duration') {
+            Y = X * 0.0131
+        } else if (itemValue == 'Fixed term employment contract') {
+            Y = X * 0.0203
+        }
+        return Y
+
+        // setEmploymentContract(Y)
+    }
+
+    const onChangeYourNationality = (itemValue, itemIndex) => {
+        setYourNationalityLabel(itemValue)
+        // For - Your nationality
+        // ---------------------------------------
+
+        // => Option 1 - Lithuanian
+        // 1. formula : Y = X - (X - Z) * 0,2 - X * 0,0872 - X * 0,0698 - X * 0,0209 - X * 0,0171
+
+        // => Option 2 - Foreigner
+        // 1. Formula :Y = X - (X - Z) * 0,2 - X * 0,0872 - X * 0,0209 - X * 0,0171
+        let X = Number(salary);
+        let Z = 0
+        let Y = 0
+        let notNegativePart = X - 607 < 0 ? 0 : X - 607;
+        Z = 350 - 0.17 * notNegativePart
+        let notNegativePartInY = X - Z < 0 ? 0 : X - Z
+        if (itemValue == 'Lithuanian') {
+            Y = X * 0.0698
+        } else if (itemValue == 'Foreigner') {
+            Y = 0
+        }
+        return Y
+
+        // setYourNationality(Y)
+    }
+
+    const onChangeAccidentsAndOccupationalDiseases = (itemValue, itemIndex) => {
+        setAccidentsAndOccupationalDiseasesLabel(itemValue)
+        let X = Number(salary);
+        let Z = 0
+        let Y = 0
+        let notNegativePart = X - 607 < 0 ? 0 : X - 607;
+        Z = 350 - 0.17 * notNegativePart
+        if (itemValue == '1 - 0,14%') {
+            Y = X * 0.0014
+        } else if (itemValue == '2 - 0,4%') {
+            Y = X * 0.004
+        } else if (itemValue == '2 - 0,7%') {
+            Y = X * 0.007
+        } else if (itemValue == '2 - 1,4%') {
+            Y = X * 0.014
+        }
+
+        return Y
+
+        // setAccidentsAndOccupationalDiseases(Y)
+    }
+
+    const onPressCalculate = () => {
+
+        let X = Number(salary);
+        // let Z = 0
+        // Z = 350 - 0.17 * (X - 607)
+        // if (Z <= 0)
+        //     Z = 0
+
+
+
+        let NDP = onChangeNPD(NDPLabel)
+        let accumulateForRetirementExtra = onChangeAccumulateForRetirementExtra(accumulateForRetirementExtraLabel)
+        let yourNationality = onChangeYourNationality(yourNationalityLabel)
+        let additionalInformation = onChangeAdditionalInformation(additionalInformationLabel)
+        let accidentsAndOccupationalDiseases = onChangeAccidentsAndOccupationalDiseases(accidentsAndOccupationalDiseasesLabel)
+        let employmentContract = onChangeEmploymentContract(employmentContractLabel)
+
+        // console.log('NDP=', NDP)
+        // console.log('accumulateForRetirementExtra=', accumulateForRetirementExtra)
+        // console.log('yourNationality=', yourNationality)
+        // console.log('additionalInformation=', additionalInformation)
+        // console.log('accidentsAndOccupationalDiseases=', accidentsAndOccupationalDiseases)
+        // console.log('employmentContract=', employmentContract)
+
+        // Output 1: ---------------------------------------------------------
+        // Y = X – (OPTION 1) – (OPTION 2) - (OPTION 5) - X * 0,0209 - X * 0,0171
+
+        let output1 = X - NDP - (accumulateForRetirementExtra) - (yourNationality) - X * 0.0209 - X * 0.0171
+        let output2 = 0
+        if (additionalInformationLabel == 'None of the options') {
+            if (yourNationalityLabel == 'Lithuanian') {
+                output2 = X + employmentContract + X * 0.0016 + X * 0.0016 + accidentsAndOccupationalDiseases + additionalInformation
+            } else if (yourNationalityLabel == 'Foreigner') {
+                output2 = X + employmentContract + X * 0.0016 + X * 0.0016 + X * accidentsAndOccupationalDiseases + ((607 - X) < 0 ? 0 : (607 - X)) * 0, 12522
+            }
+        } else {
+            output2 = X + employmentContract + X * 0.0016 + X * 0.0016 + accidentsAndOccupationalDiseases
+        }
+        setOutput1(output1.toFixed(2))
+        setOutput2(output2.toFixed(2))
+        console.log('output 1 = ', output1, 'output 2=', output2)
+    }
+
 
     return (
         <View style={{ flex: 1, backgroundColor: '#394948' }}>
@@ -13,72 +240,102 @@ const CustomTaxCalculator = () => {
                 <Text style={{ fontSize: 22, color: '#fff' }}>Nustatyti</Text>
             </View>
             <ScrollView contentContainerStyle={{ marginHorizontal: 25, paddingBottom: 50 }}>
-                <Text style={{ color: '#fff' }}>NPD</Text>
+                <View>
+                    <Text style={{ color: '#fff' }}>Gross Salary</Text>
+                    <View style={{ height: 50, borderWidth: 1, borderColor: 'gray', borderRadius: 10, marginVertical: 10, backgroundColor: '#fff' }}>
+                        <TextInput onChangeText={(text) => { setSalary(text) }} keyboardType={'numeric'} style={{ fontSize: 18 }} />
+                    </View>
+                </View>
+                <Text style={{ color: '#fff' }}>NPD calculation</Text>
                 <View style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#D1E7F3', justifyContent: 'center', alignItems: 'center' }}>
                     <Picker
-                        selectedValue={'category'}
+                        selectedValue={NDPLabel}
                         style={{ flex: 1, height: 50, width: '100%', color: '#000' }}
-                        onValueChange={(itemValue, itemIndex) => { }}>
-                        <Picker.Item label="Option 1" value="Option 1" />
+                        onValueChange={(itemValue) => { setNDPLabel(itemValue) }}>
+                        <Picker.Item label="Calculated automatically" value="Calculated automatically" />
+                        <Picker.Item label="Don’t calculate" value="Don’t calculate" />
+                        <Picker.Item label="30-55%" value="30-55%" />
+                        <Picker.Item label="0-25%" value="0-25%" />
                     </Picker>
                 </View>
+                <Text style={{ color: '#fff' }}>Do you accumulate for retirement?</Text>
+                <View style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#D1E7F3', justifyContent: 'center', alignItems: 'center' }}>
+                    <Picker
+                        selectedValue={accumulateForRetirementExtraLabel}
+                        style={{ flex: 1, height: 50, width: '100%', color: '#000' }}
+                        onValueChange={(itemValue) => { setAccumulateForRetirementExtraLabel(itemValueFFF) }}>
+                        <Picker.Item label="I do not accumulate" value="I do not accumulate" />
+                        <Picker.Item label="I am accumulating 2.1%" value="I am accumulating 2.1%" />
+                        <Picker.Item label="I am accumulating 3%" value="I am accumulating 3%" />
+                    </Picker>
+                </View>
+                <Text style={{ color: '#fff' }}>Additional information</Text>
+                <View style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#D1E7F3', justifyContent: 'center', alignItems: 'center' }}>
+                    <Picker
+                        selectedValue={additionalInformationLabel}
+                        style={{ flex: 1, height: 50, width: '100%', color: '#000' }}
+                        onValueChange={(itemValue) => { setAdditionalInformationLabel(itemValue) }}>
+                        <Picker.Item label="I work in several workplaces" value="I work in several workplaces" />
+                        <Picker.Item label="I am receiving a retirement pension" value="I am receiving a retirement pension" />
+                        <Picker.Item label="I am younger than 24m" value="I am younger than 24m" />
+                        <Picker.Item label="None of the options" value="None of the options" />
+
+                    </Picker>
+                </View>
+                <Text style={{ color: '#fff' }}>The type of your employment contract</Text>
+                <View style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#D1E7F3', justifyContent: 'center', alignItems: 'center' }}>
+                    <Picker
+                        selectedValue={employmentContractLabel}
+                        style={{ flex: 1, height: 50, width: '100%', color: '#000' }}
+                        onValueChange={(itemValue) => { setEmploymentContractLabel(itemValue) }}>
+                        <Picker.Item label="Indefinite duration" value="Indefinite duration" />
+                        <Picker.Item label="Fixed term employment contract" value="Fixed term employment contract" />
+                    </Picker>
+                </View>
+                <Text style={{ color: '#fff' }}>Your nationality</Text>
+                <View style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#D1E7F3', justifyContent: 'center', alignItems: 'center' }}>
+                    <Picker
+                        selectedValue={yourNationalityLabel}
+                        style={{ flex: 1, height: 50, width: '100%', color: '#000' }}
+                        onValueChange={(itemValue) => setYourNationalityLabel(itemValue)}>
+                        <Picker.Item label="Lithuanian" value="Lithuanian" />
+                        <Picker.Item label="Foreigner" value="Foreigner" />
+                    </Picker>
+                </View>
+                <Text style={{ color: '#fff' }}>Which group of accidents and occupational diseases does the employer belong to?</Text>
+                <View style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#D1E7F3', justifyContent: 'center', alignItems: 'center' }}>
+                    <Picker
+                        selectedValue={accidentsAndOccupationalDiseasesLabel}
+                        style={{ flex: 1, height: 50, width: '100%', color: '#000' }}
+                        onValueChange={(itemValue) => setAccidentsAndOccupationalDiseasesLabel(itemValue)}>
+                        <Picker.Item label="1 - 0,14%" value="1 - 0,14%" />
+                        <Picker.Item label="2 - 0,4%" value="2 - 0,4%" />
+                        <Picker.Item label="2 - 0,7%" value="2 - 0,7%" />
+                        <Picker.Item label="2 - 1,4%" value="2 - 1,4%" />
+                    </Picker>
+                </View>
+                {output1 ?
+                    <View>
+                        <Text style={{ color: '#fff' }}>Salary after taxes</Text>
+                        <View style={{ height: 50, borderWidth: 1, borderColor: 'gray', borderRadius: 10, marginVertical: 10, backgroundColor: '#fff' }}>
+                            <TextInput editable={false} style={{ fontSize: 18, color: '#000' }} value={`${output1}€`} />
+                        </View>
+                    </View> : null}
+                {output1 ?
+                    <View>
+                        <Text style={{ color: '#fff' }}>Total work place cost</Text>
+                        <View style={{ height: 50, borderWidth: 1, borderColor: 'gray', borderRadius: 10, marginVertical: 10, backgroundColor: '#fff' }}>
+                            <TextInput editable={false} style={{ fontSize: 18, color: '#000' }} value={`${output2}€`} />
+                        </View>
+                    </View> : null}
+
                 <View style={{ flexDirection: 'row', flex: 1 }}>
-                    <TouchableOpacity style={{ flex: 1, height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#479B92', justifyContent: 'center', alignItems: 'center' }}>
-                        <Text style={{ color: 'white', }}>tęsti</Text>
-                    </TouchableOpacity>
-                </View>
-                <Text style={{ color: '#fff' }}>Ar kaupiate pensijai?</Text>
-                <View style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#D1E7F3', justifyContent: 'center', alignItems: 'center' }}>
-                    <Picker
-                        selectedValue={'category'}
-                        style={{ flex: 1, height: 50, width: '100%', color: '#000' }}
-                        onValueChange={(itemValue, itemIndex) => { }}>
-                        <Picker.Item label="Option 1" value="Option 1" />
-                    </Picker>
-                </View>
-                <Text style={{ color: '#fff' }}>Papildoma informacija</Text>
-                <View style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#D1E7F3', justifyContent: 'center', alignItems: 'center' }}>
-                    <Picker
-                        selectedValue={'category'}
-                        style={{ flex: 1, height: 50, width: '100%', color: '#000' }}
-                        onValueChange={(itemValue, itemIndex) => { }}>
-                        <Picker.Item label="Option 1" value="Option 1" />
-                    </Picker>
-                </View>
-                <Text style={{ color: '#fff' }}>Darbo sutarties tipas</Text>
-                <View style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#D1E7F3', justifyContent: 'center', alignItems: 'center' }}>
-                    <Picker
-                        selectedValue={'category'}
-                        style={{ flex: 1, height: 50, width: '100%', color: '#000' }}
-                        onValueChange={(itemValue, itemIndex) => { }}>
-                        <Picker.Item label="Option 1" value="Option 1" />
-                    </Picker>
-                </View>
-                <Text style={{ color: '#fff' }}>Jūsų pilietybė</Text>
-                <View style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#D1E7F3', justifyContent: 'center', alignItems: 'center' }}>
-                    <Picker
-                        selectedValue={'category'}
-                        style={{ flex: 1, height: 50, width: '100%', color: '#000' }}
-                        onValueChange={(itemValue, itemIndex) => { }}>
-                        <Picker.Item label="Option 1" value="Option 1" />
-                    </Picker>
-                </View>
-                <Text style={{ color: '#fff' }}>Draudėjo grupė</Text>
-                <View style={{ height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#D1E7F3', justifyContent: 'center', alignItems: 'center' }}>
-                    <Picker
-                        selectedValue={'category'}
-                        style={{ flex: 1, height: 50, width: '100%', color: '#000' }}
-                        onValueChange={(itemValue, itemIndex) => { }}>
-                        <Picker.Item label="Option 1" value="Option 1" />
-                    </Picker>
-                </View>
-                <View style={{ flexDirection: 'row', flex: 1 }}>
-                    <TouchableOpacity style={{ flex: 1, height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#479B92', justifyContent: 'center', alignItems: 'center' }}>
-                        <Text style={{ color: 'white', }}>tęsti</Text>
+                    <TouchableOpacity onPress={onPressCalculate} style={{ flex: 1, height: 50, borderRadius: 10, marginVertical: 10, backgroundColor: '#479B92', justifyContent: 'center', alignItems: 'center' }}>
+                        <Text style={{ color: 'white', }}>Calculate</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
-        </View>
+        </View >
     )
 }
 

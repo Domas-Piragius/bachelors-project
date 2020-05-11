@@ -50,7 +50,7 @@ const ByMonth = ({ isBudgetActive }) => {
     return (
         <View style={{ flex: 1 }}>
             <View style={{ alignItems: 'center', marginVertical: 25 }}>
-                <Text style={{ fontSize: 28, fontWeight: 'bold', color: '#fff' }}>{'€' + totalSpends}</Text>
+                <Text style={{ fontSize: 28, fontWeight: 'bold', color: '#fff' }}>{totalSpends +'€'}</Text>
             </View>
             <Text style={{ marginHorizontal: 25, color: '#fff' }}>Rūšiuoti pagal mėnesius (visą laiką)</Text>
             {spends && <ScrollView contentContainerStyle={{ marginHorizontal: 25, paddingBottom: 50 }}>
@@ -66,7 +66,7 @@ const ByMonth = ({ isBudgetActive }) => {
                                             <Text style={styles.labelText}>{item.monthYear}</Text>
                                         </View>
                                         <View style={{}}>
-                                            <Text style={styles.labelText}>{'€' + item.total}</Text>
+                                            <Text style={styles.labelText}>{ item.total+'€'}</Text>
                                         </View>
                                     </View>
                                 </TouchableOpacity>
