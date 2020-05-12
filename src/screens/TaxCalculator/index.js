@@ -13,18 +13,21 @@ const TaxCalculator = ({ navigation }) => {
     const onTextChangeSalary = (text) => {
         // Z = 350 - 0,17 * ( X - 607)
         // Y = X - (X - Z) * 0,2 - X * 0,0872 - X * 0,0698 - X * 0,0209 - X * 0,0171
-        let X = Number(text)
-        if (X <= 0) {
-            setResult(0)
-        } else {
-            let Z = 350 - 0.17 * (X - 607)
-            if (Z <= 0)
-                Z = 0
-            let y = X - (X - Z) * 0.2 - X * 0.0872 - X * 0.0698 - X * 0.0209 - X * 0.0171
-            if (y <= 0) {
+
+        if (!isNaN(Number(text.trim()))) {
+            let X = Number(text)
+            if (X <= 0) {
                 setResult(0)
             } else {
-                setResult(y)
+                let notNegativePart = X - 607 < 0 ? 0 : X - 607;
+                let Z = 350 - 0.17 * notNegativePart
+                Z = Z < 0 ? 0 : Z
+                let y = X - (X - Z) * 0.2 - X * 0.0872 - X * 0.0698 - X * 0.0209 - X * 0.0171
+                if (y <= 0) {
+                    setResult(0)
+                } else {
+                    setResult(y)
+                }
             }
         }
 
