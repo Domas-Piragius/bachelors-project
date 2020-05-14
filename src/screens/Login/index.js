@@ -9,7 +9,7 @@ const Login = ({ navigation }) => {
 
     useEffect(() => {
         GoogleSignin.configure({
-            webClientId: '368820231080-pscnhl1o4ef8nceglnmhqj2797c5hv7c.apps.googleusercontent.com', // From Firebase Console Settings
+            webClientId: '173137937387-vq1m100n65hoj5g6ud942aagccmd3266.apps.googleusercontent.com', // From Firebase Console Settings
         });
     }, [])
 

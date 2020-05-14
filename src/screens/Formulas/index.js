@@ -4,10 +4,10 @@ import Header from '../Components/Header/index'
 const Formulas = () => {
     return (
         <View style={{ flex: 1, backgroundColor: '#394948' }}>
-            <View style={{ alignItems: 'center', marginVertical: 25 }}>
+            {/* <View style={{ alignItems: 'center', marginVertical: 25 }}>
                 <Text style={{ fontSize: 22, color: '#fff' }}>Formulės</Text>
-            </View>
-            <ScrollView contentContainerStyle={{ marginHorizontal: 25, justifyContent: 'center', }}>
+            </View> */}
+            <ScrollView contentContainerStyle={{ marginHorizontal: 25, justifyContent: 'center', marginTop: 10}}>
                 <View>
                     <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#fff' }}>Terminai</Text>
                     <View style={{ height: 50, borderWidth: 1, borderColor: 'gray', backgroundColor: '#479B92', borderRadius: 10, marginVertical: 10, justifyContent: 'center', alignItems: 'center' }}>

@@ -25,7 +25,7 @@ const App = () => {
                 <Stack.Screen options={{ title: '' }} name="TaxCalculator" component={TaxCalculator} />
                 <Stack.Screen options={{ title: '' }} name="CustomTaxCalculator" component={CustomTaxCalculator} />
                 <Stack.Screen options={{ title: 'Išleisk skaičiuoklę' }} name="BudgetPlanner" component={BudgetPlanner} />
-                <Stack.Screen options={{ title: '' }} name="Formulas" component={Formulas} />
+                <Stack.Screen options={{ title: 'Formulės' }} name="Formulas" component={Formulas} />
             </Stack.Navigator>
         </NavigationContainer>
     )
