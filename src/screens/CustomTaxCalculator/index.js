@@ -37,7 +37,7 @@ const CustomTaxCalculator = () => {
     }
 
     const onChangeAccumulateForRetirementExtra = (itemValue, itemIndex) => {
-        setAccidentsAndOccupationalDiseasesLabel(itemValue)
+        // setAccumulateForRetirementExtraLabel(itemValue)
 
         let X = Number(salary);
         let Z = 0
@@ -56,7 +56,7 @@ const CustomTaxCalculator = () => {
     }
 
     const onChangeAdditionalInformation = (itemValue, itemIndex) => {
-        setAdditionalInformationLabel(itemValue)
+        // setAdditionalInformationLabel(itemValue)
 
         let X = Number(salary);
         let Z = 0
@@ -70,7 +70,12 @@ const CustomTaxCalculator = () => {
         } else if (itemValue == 'I am younger than 24m') {
             Y = 0
         } else if (itemValue == 'None of the options') {
-            Y = ((607 - X) < 0 ? 0 : (607 - X)) * 0.2127
+            if (X <= 607) {
+                Y = ((607 - X) < 0 ? 0 : (607 - X)) * 0.195
+            } else {
+                Y = ((607 - X) < 0 ? 0 : (607 - X)) * 0.2127
+
+            }
         }
         return Y
 
@@ -78,12 +83,14 @@ const CustomTaxCalculator = () => {
     }
 
     const onChangeEmploymentContract = (itemValue, itemIndex) => {
-        setEmploymentContractLabel(itemValue)
+        // setEmploymentContractLabel(itemValue)
         let X = Number(salary);
         let Z = 0
         let Y = 0
         let notNegativePart = X - 607 < 0 ? 0 : X - 607;
         Z = 350 - 0.17 * notNegativePart
+        if (X <= 607)
+            X = 607
         if (itemValue == 'Indefinite duration') {
             Y = X * 0.0131
         } else if (itemValue == 'Fixed term employment contract') {
@@ -93,7 +100,7 @@ const CustomTaxCalculator = () => {
     }
 
     const onChangeYourNationality = (itemValue, itemIndex) => {
-        setYourNationalityLabel(itemValue)
+        // setYourNationalityLabel(itemValue)
         let X = Number(salary);
         let Z = 0
         let Y = 0
@@ -110,12 +117,14 @@ const CustomTaxCalculator = () => {
     }
 
     const onChangeAccidentsAndOccupationalDiseases = (itemValue, itemIndex) => {
-        setAccidentsAndOccupationalDiseasesLabel(itemValue)
+        // setAccidentsAndOccupationalDiseasesLabel(itemValue)
         let X = Number(salary);
         let Z = 0
         let Y = 0
         let notNegativePart = X - 607 < 0 ? 0 : X - 607;
         Z = 350 - 0.17 * notNegativePart
+        if (X <= 607)
+            X = 607
         if (itemValue == '1 - 0,14%') {
             Y = X * 0.0014
         } else if (itemValue == '2 - 0,4%') {
@@ -143,11 +152,12 @@ const CustomTaxCalculator = () => {
 
         let output1 = X - NDP - (accumulateForRetirementExtra) - (yourNationality) - X * 0.0209 - X * 0.0171
         let output2 = 0
+        let nextX = X <= 607 ? 607 : X
         if (additionalInformationLabel == 'None of the options') {
             if (yourNationalityLabel == 'Lithuanian') {
-                output2 = X + employmentContract + X * 0.0016 + X * 0.0016 + accidentsAndOccupationalDiseases + additionalInformation
+                output2 = X + employmentContract + nextX * 0.0016 + nextX * 0.0016 + accidentsAndOccupationalDiseases + additionalInformation
             } else if (yourNationalityLabel == 'Foreigner') {
-                output2 = X + employmentContract + X * 0.0016 + X * 0.0016 + accidentsAndOccupationalDiseases + ((607 - X) < 0 ? 0 : (607 - X)) * 0.12522
+                output2 = X + employmentContract + nextX * 0.0016 + nextX * 0.0016 + accidentsAndOccupationalDiseases + ((607 - X) < 0 ? 0 : (607 - X)) * 0.12522
                 console.log(output2)
             }
         } else {
